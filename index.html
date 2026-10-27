@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLB EGG – Điểm danh phòng 708</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f2f5f6;--card:#fff;--ink:#14323a;--mute:#5d7279;--line:#d5dfe2;--yolk:#f5b400;--yolk-ink:#3a2a00;--ok:#1f8a5b;--no:#c8472b;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1e22;--card:#172a30;--ink:#e8f0f2;--mute:#97adb4;--line:#28424a;--yolk-ink:#2b2000;--ok:#4cc790;--no:#ff8a6b;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Be Vietnam Pro",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+h1{font-size:1.6rem;line-height:1.15;margin:0;font-weight:800}
+h1 small{display:block;font-size:.9rem;font-weight:500;color:var(--mute);margin-top:4px}
+h2{font-size:1.05rem;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+label{display:block;font-weight:500;font-size:.92rem;margin:12px 0 4px}
+input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--yolk);outline-offset:1px}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.slots label{display:flex;gap:8px;align-items:center;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-weight:500;cursor:pointer}
+.slots input{width:auto}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 18px;cursor:pointer;background:var(--yolk);color:var(--yolk-ink)}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500;padding:8px 12px}
+button.danger{background:transparent;color:var(--no);border:1px solid var(--line);padding:4px 10px;font-weight:500}
+.full{width:100%;margin-top:16px}
+.msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-weight:500}
+.msg.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.msg.err{background:color-mix(in srgb,var(--no) 15%,transparent);color:var(--no)}
+.banner{border-radius:12px;padding:14px 16px;margin-bottom:10px;font-weight:700;background:var(--ok);color:#fff}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{border:1px solid var(--line);border-radius:12px;padding:12px}
+.day b{display:block}.day span{color:var(--mute);font-size:.88rem}
+.day .n{font-size:1.5rem;font-weight:800;color:var(--ink)}
+.day.sat{border-color:var(--yolk);border-width:2px}
+.bar{height:8px;border-radius:99px;background:var(--line);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--yolk)}
+.bar.open i{background:var(--ok)}
+.hint{color:var(--mute);font-size:.88rem;margin:8px 0 0}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+.scroll{overflow-x:auto}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.row>*{flex:1;min-width:150px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>CLB EGG<small>Điểm danh lên phòng 708 – Thư viện</small></h1>
+  <button class="ghost" id="adminBtn">Admin</button>
+</header>
+
+<div id="cfgWarn" class="msg err" hidden>Chưa cấu hình Supabase. Mở index.html và điền SUPABASE_URL, SUPABASE_KEY.</div>
+<div id="banners"></div>
+
+<section class="card">
+  <h2>Đăng ký lên thư viện</h2>
+  <form id="f" onsubmit="return false">
+    <label for="name">Họ và tên</label>
+    <input id="name" maxlength="80" autocomplete="name" required>
+    <label for="cls">Lớp</label>
+    <input id="cls" maxlength="30" required>
+    <label for="date">Ngày</label>
+    <select id="date"></select>
+    <label>Khung giờ (chọn một hoặc nhiều)</label>
+    <div class="slots" id="slots"></div>
+    <button class="full" id="go">Đăng ký</button>
+  </form>
+  <div id="result" role="status"></div>
+</section>
+
+<section class="card">
+  <h2>Số người đã đăng ký</h2>
+  <div class="days" id="days"></div>
+  <p class="hint">Thứ 7 chỉ mở khi có trên 12 người. Khi đủ, thông báo "Đã mở" sẽ hiện ở đầu trang.</p>
+</section>
+
+<section class="card" id="adminBox" hidden>
+  <h2>Quản trị</h2>
+  <form id="login" class="row" onsubmit="return false">
+    <div><label for="em">Email admin</label><input id="em" type="email" autocomplete="username"></div>
+    <div><label for="pw">Mật khẩu</label><input id="pw" type="password" autocomplete="current-password"></div>
+    <button id="loginBtn">Đăng nhập</button>
+  </form>
+  <div id="adminPanel" hidden>
+    <div class="row">
+      <div><label for="fd">Lọc theo ngày</label><select id="fd"></select></div>
+      <button class="ghost" id="csv">Tải CSV</button>
+      <button class="ghost" id="copyMsg">Chép tin nhắn thông báo</button>
+      <button class="ghost" id="logout">Đăng xuất</button>
+    </div>
+    <p class="hint" id="sum"></p>
+    <div class="scroll"><table><thead><tr><th>Tên</th><th>Lớp</th><th>Ngày</th><th>Khung giờ</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+  </div>
+  <div id="adminMsg"></div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ===== CẤU HÌNH ===== */
+const SUPABASE_URL = "";   // https://xxxx.supabase.co
+const SUPABASE_KEY = "";   // anon public key
+const SAT_MIN = 13;        // thứ 7 cần trên 12 người
+const SLOTS = ["Sáng 7:30–9:30","Sáng 9:30–11:30","Chiều 13:00–15:00","Chiều 15:00–17:00"];
+const DAYS_AHEAD = 14;
+/* ==================== */
+
+const $ = id => document.getElementById(id);
+const DOW = ["Chủ nhật","Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7"];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const fmt = s => { const [y,m,d] = s.split("-").map(Number); const dt = new Date(y,m-1,d); return `${DOW[dt.getDay()]} ${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}`; };
+
+const dates = [];
+for (let i = 0; i < DAYS_AHEAD; i++) { const d = new Date(); d.setDate(d.getDate()+i); if (d.getDay() !== 0) dates.push(iso(d)); }
+
+const ok = SUPABASE_URL && SUPABASE_KEY;
+const sb = ok ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+if (!ok) $("cfgWarn").hidden = false;
+
+$("date").innerHTML = dates.map(d => `<option value="${d}">${fmt(d)}</option>`).join("");
+$("fd").innerHTML = `<option value="">Tất cả</option>` + dates.map(d => `<option value="${d}">${fmt(d)}</option>`).join("");
+$("slots").innerHTML = SLOTS.map((s,i) => `<label><input type="checkbox" name="slot" value="${esc(s)}"> ${esc(s)}</label>`).join("");
+
+let counts = {};
+async function loadCounts() {
+  if (!sb) return;
+  const { data, error } = await sb.rpc("day_counts", { from_d: dates[0], to_d: dates[dates.length-1] });
+  if (error) return;
+  counts = Object.fromEntries(data.map(r => [r.visit_date, Number(r.people)]));
+  render();
+}
+function render() {
+  $("days").innerHTML = dates.map(d => {
+    const n = counts[d] || 0, sat = new Date(d+"T00:00").getDay() === 6;
+    if (!sat) return `<div class="day"><b>${fmt(d)}</b><div class="n">${n}</div><span>người • phòng mở</span></div>`;
+    const open = n >= SAT_MIN, pct = Math.min(100, Math.round(n / SAT_MIN * 100));
+    return `<div class="day sat"><b>${fmt(d)}</b><div class="n">${n}/${SAT_MIN}</div>
+      <span>${open ? "Đã mở cửa" : `Cần thêm ${SAT_MIN - n} người để mở`}</span>
+      <div class="bar ${open?"open":""}"><i style="width:${pct}%"></i></div></div>`;
+  }).join("");
+  $("banners").innerHTML = dates.filter(d => new Date(d+"T00:00").getDay()===6 && (counts[d]||0) >= SAT_MIN)
+    .map(d => `<div class="banner">Phòng 708 MỞ CỬA ${fmt(d)} – đã đủ ${counts[d]} người.</div>`).join("");
+}
+
+$("go").onclick = async () => {
+  const r = $("result"); r.className = ""; r.textContent = "";
+  const name = $("name").value.trim().replace(/\s+/g," "), cls = $("cls").value.trim().toUpperCase();
+  const date = $("date").value, slots = [...document.querySelectorAll("input[name=slot]:checked")].map(x => x.value);
+  const fail = t => { r.className = "msg err"; r.textContent = t; };
+  if (!sb) return fail("Trang chưa được cấu hình.");
+  if (name.length < 2 || !cls) return fail("Nhập đủ họ tên và lớp.");
+  if (!slots.length) return fail("Chọn ít nhất một khung giờ.");
+  $("go").disabled = true;
+  const rows = slots.map(slot => ({ full_name: name, class_name: cls, visit_date: date, slot }));
+  const { error } = await sb.from("registrations").insert(rows);
+  $("go").disabled = false;
+  if (error) return fail(error.code === "23505" ? "Bạn đã đăng ký khung giờ này rồi." : "Chưa gửi được, thử lại sau nhé.");
+  r.className = "msg ok";
+  r.textContent = `OK! ${name} (${cls}) đã đăng ký ${fmt(date)}: ${slots.join(", ")}.`;
+  document.querySelectorAll("input[name=slot]").forEach(x => x.checked = false);
+  loadCounts();
+};
+
+/* ---- Admin ---- */
+let all = [];
+$("adminBtn").onclick = () => { $("adminBox").hidden = !$("adminBox").hidden; checkSession(); };
+async function checkSession() {
+  if (!sb) return;
+  const { data } = await sb.auth.getSession();
+  const on = !!data.session;
+  $("login").hidden = on; $("adminPanel").hidden = !on;
+  if (on) loadAdmin();
+}
+$("loginBtn").onclick = async () => {
+  $("adminMsg").innerHTML = "";
+  const { error } = await sb.auth.signInWithPassword({ email: $("em").value.trim(), password: $("pw").value });
+  if (error) $("adminMsg").innerHTML = `<div class="msg err">Sai email hoặc mật khẩu.</div>`;
+  else { $("pw").value = ""; checkSession(); }
+};
+$("logout").onclick = async () => { await sb.auth.signOut(); checkSession(); };
+async function loadAdmin() {
+  const { data, error } = await sb.from("registrations").select("*").order("visit_date").order("slot").order("full_name").limit(5000);
+  if (error) { $("adminMsg").innerHTML = `<div class="msg err">Không tải được dữ liệu.</div>`; return; }
+  all = data; drawTable();
+}
+function drawTable() {
+  const f = $("fd").value, rows = f ? all.filter(r => r.visit_date === f) : all;
+  const people = new Set(rows.map(r => r.visit_date + r.full_name.toLowerCase() + r.class_name)).size;
+  $("sum").textContent = `${rows.length} lượt đăng ký • ${people} người`;
+  $("tb").innerHTML = rows.map(r => `<tr><td>${esc(r.full_name)}</td><td>${esc(r.class_name)}</td><td>${fmt(r.visit_date)}</td><td>${esc(r.slot)}</td>
+    <td><button class="danger" data-id="${r.id}">Xóa</button></td></tr>`).join("");
+}
+$("fd").onchange = drawTable;
+$("tb").onclick = async e => {
+  const id = e.target.dataset.id; if (!id || !confirm("Xóa đăng ký này?")) return;
+  const { error } = await sb.from("registrations").delete().eq("id", id);
+  if (!error) { all = all.filter(r => r.id !== id); drawTable(); loadCounts(); }
+};
+$("csv").onclick = () => {
+  const q = v => `"${String(v).replace(/"/g,'""')}"`;
+  const body = ["Tên,Lớp,Ngày,Khung giờ", ...all.map(r => [r.full_name,r.class_name,r.visit_date,r.slot].map(q).join(","))].join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["\ufeff"+body], { type: "text/csv;charset=utf-8" }));
+  a.download = `egg-diem-danh-${iso(new Date())}.csv`; a.click();
+};
+$("copyMsg").onclick = async () => {
+  const sats = dates.filter(d => new Date(d+"T00:00").getDay()===6);
+  const lines = sats.map(d => (counts[d]||0) >= SAT_MIN ? `Phòng 708 MỞ CỬA ${fmt(d)} (đã có ${counts[d]} người đăng ký).` : `${fmt(d)}: mới ${counts[d]||0}/${SAT_MIN} người, chưa mở.`);
+  try { await navigator.clipboard.writeText("CLB EGG – thông báo phòng 708:\n" + lines.join("\n")); $("adminMsg").innerHTML = `<div class="msg ok">Đã chép, dán vào nhóm chat của CLB.</div>`; }
+  catch { $("adminMsg").innerHTML = `<div class="msg err">Trình duyệt chặn chép tự động.</div>`; }
+};
+
+loadCounts();
+setInterval(loadCounts, 60000);
+</script>
+</body>
+</html>
