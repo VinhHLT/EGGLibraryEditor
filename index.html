@@ -5,39 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CLB EGG – Điểm danh phòng 708</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Exo+2:ital,wght@1,800&display=swap">
 <style>
-:root{--bg:#f2f5f6;--card:#fff;--ink:#14323a;--mute:#5d7279;--line:#d5dfe2;--yolk:#f5b400;--yolk-ink:#3a2a00;--ok:#1f8a5b;--no:#c8472b;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1e22;--card:#172a30;--ink:#e8f0f2;--mute:#97adb4;--line:#28424a;--yolk-ink:#2b2000;--ok:#4cc790;--no:#ff8a6b;color-scheme:dark}}
+:root{--ink:#14325a;--mute:#4d6a8c;--line:#c9dcec;--card:rgba(255,255,255,.88);--orange:#f7891b;--orange2:#ffa545;--shell:#fbfbd9;--sky1:#2f6fb5;--sky2:#6aa9e6;--mint:#dff1ea;--ok:#13794f;--no:#b83a1e;--yolk:#f7891b;--yolk-ink:#14325a;--bg:#f3f8fc;color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Be Vietnam Pro",system-ui,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-h1{font-size:1.6rem;line-height:1.15;margin:0;font-weight:800}
-h1 small{display:block;font-size:.9rem;font-weight:500;color:var(--mute);margin-top:4px}
-h2{font-size:1.05rem;margin:0 0 12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+html{background:var(--sky1)}
+body{margin:0;color:var(--ink);font:16px/1.5 "Be Vietnam Pro",system-ui,sans-serif;min-height:100vh;background:linear-gradient(180deg,var(--sky1) 0,var(--sky2) 55%,#a9cdf0 100%) fixed}
+#sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+#sky::before{content:"";position:absolute;inset:0;filter:blur(3px);background:
+ radial-gradient(ellipse 190px 130px at 8% 78%,rgba(223,241,234,.85) 55%,rgba(223,241,234,0) 72%),
+ radial-gradient(ellipse 240px 150px at 38% 96%,rgba(223,241,234,.8) 55%,rgba(223,241,234,0) 72%),
+ radial-gradient(ellipse 220px 140px at 78% 90%,rgba(251,251,217,.8) 55%,rgba(251,251,217,0) 72%),
+ radial-gradient(ellipse 170px 110px at 94% 45%,rgba(223,241,234,.6) 55%,rgba(223,241,234,0) 72%),
+ radial-gradient(ellipse 150px 100px at 3% 32%,rgba(255,200,150,.35) 55%,rgba(255,200,150,0) 72%),
+ radial-gradient(ellipse 200px 120px at 60% 12%,rgba(223,241,234,.45) 55%,rgba(223,241,234,0) 72%)}
+.bin{position:absolute;top:-10px;white-space:pre;font:13px/1.7 ui-monospace,Menlo,monospace;color:rgba(255,255,255,.4);-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:16px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:8px;background:#fff;border-radius:99px;padding:6px 18px 6px 10px;font:italic 800 1.35rem "Exo 2",sans-serif;color:#1d5aa6}
+.logo svg{width:30px;height:30px}
+.hero{position:relative;padding:34px 0 26px}
+.hero h1{margin:0;font-family:"Exo 2","Be Vietnam Pro",sans-serif;font-style:italic;font-weight:800;color:#fff;-webkit-text-stroke:9px var(--orange);paint-order:stroke fill;text-shadow:0 4px 0 #c96a0a,0 8px 14px rgba(20,50,90,.35)}
+.hero .t1{display:block;font-size:2.1rem;line-height:1.1}
+.hero .t2{display:block;font-size:3.4rem;line-height:1.05;margin-left:34px}
+.hero p{margin:20px 0 0;color:#fff;font-weight:500;text-shadow:0 1px 6px rgba(20,50,90,.5)}
+.bird{position:absolute;right:-6px;bottom:-8px;width:200px;transform:rotate(-6deg);filter:drop-shadow(0 6px 8px rgba(20,50,90,.25))}
+h2{font:italic 800 1.2rem "Exo 2","Be Vietnam Pro",sans-serif;margin:0 0 12px}
+.card{background:var(--card);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.9);border-radius:22px;padding:20px;margin-bottom:16px;box-shadow:0 10px 30px rgba(20,50,90,.15)}
 label{display:block;font-weight:500;font-size:.92rem;margin:12px 0 4px}
-input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--yolk);outline-offset:1px}
-.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
-.slots label{display:flex;gap:8px;align-items:center;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-weight:500;cursor:pointer}
-.slots input{width:auto}
-button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 18px;cursor:pointer;background:var(--yolk);color:var(--yolk-ink)}
-button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500;padding:8px 12px}
-button.danger{background:transparent;color:var(--no);border:1px solid var(--line);padding:4px 10px;font-weight:500}
-.full{width:100%;margin-top:16px}
-.msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-weight:500}
-.msg.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
-.msg.err{background:color-mix(in srgb,var(--no) 15%,transparent);color:var(--no)}
-.banner{border-radius:12px;padding:14px 16px;margin-bottom:10px;font-weight:700;background:var(--ok);color:#fff}
+input,select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px}
+.slots label{display:flex;gap:8px;align-items:center;margin:0;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;font-weight:500;cursor:pointer;background:#fff}
+.slots label:has(input:checked){border-color:var(--orange);background:#fff3e3}
+.slots input{width:auto;accent-color:var(--orange)}
+button{font:inherit;font-weight:700;border:0;border-radius:14px;padding:12px 18px;cursor:pointer;color:var(--yolk-ink);background:linear-gradient(180deg,var(--orange2),var(--orange));box-shadow:0 4px 0 #c96a0a}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #c96a0a}
+button:disabled{opacity:.6}
+button.ghost{background:rgba(255,255,255,.9);color:var(--ink);box-shadow:none;border:1.5px solid var(--line);font-weight:500;padding:8px 14px}
+button.danger{background:transparent;color:var(--no);box-shadow:none;border:1px solid var(--line);padding:4px 10px;font-weight:500}
+.full{width:100%;margin-top:16px;font-size:1.05rem}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:500}
+.msg.ok{background:#dff5ea;color:var(--ok)}
+.msg.err{background:#fde6df;color:var(--no)}
+.banner{border-radius:16px;padding:14px 16px;margin-bottom:10px;font-weight:700;background:var(--ok);color:#fff;box-shadow:0 6px 16px rgba(20,50,90,.2)}
 .days{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.day{border:1px solid var(--line);border-radius:12px;padding:12px}
+.day{border:1.5px solid var(--line);border-radius:16px;padding:12px;background:#fff}
 .day b{display:block}.day span{color:var(--mute);font-size:.88rem}
-.day .n{font-size:1.5rem;font-weight:800;color:var(--ink)}
-.day.sat{border-color:var(--yolk);border-width:2px}
+.day .n{font:italic 800 1.6rem "Exo 2",sans-serif;color:var(--ink)}
+.day.sat{border:2px solid var(--orange);background:#fff8ee}
 .bar{height:8px;border-radius:99px;background:var(--line);margin-top:8px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--yolk)}
+.bar i{display:block;height:100%;background:var(--orange)}
 .bar.open i{background:var(--ok)}
 .hint{color:var(--mute);font-size:.88rem;margin:8px 0 0}
 table{width:100%;border-collapse:collapse;font-size:.92rem}
@@ -46,14 +64,21 @@ th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
 .row>*{flex:1;min-width:150px}
 [hidden]{display:none!important}
+@media (max-width:520px){.hero .t1{font-size:1.7rem}.hero .t2{font-size:2.5rem;margin-left:20px}.bird{width:130px;bottom:-14px}}
 </style>
 </head>
 <body>
+<div id="sky"></div>
 <div class="wrap">
 <header>
-  <h1>CLB EGG<small>Điểm danh lên phòng 708 – Thư viện</small></h1>
+  <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l12 7-12 7L4 9z" fill="#e8432e"/><path d="M4 9l12 7v14L4 23z" fill="#f5b400"/><path d="M28 9v14l-12 7V16z" fill="#1fa7b8"/></svg>EGG</div>
   <button class="ghost" id="adminBtn">Admin</button>
 </header>
+<div class="hero">
+  <h1><span class="t1">Điểm danh</span><span class="t2">phòng 708</span></h1>
+  <p>Thư viện • CLB EGG</p>
+  <svg class="bird" viewBox="0 0 300 130" aria-hidden="true"><path d="M4 58C60 14 125 26 178 60c28-16 70-26 118-30-42 32-78 50-118 48-32 22-66 30-108 22C48 92 24 78 4 58z" fill="#fbfbd9"/><path d="M120 78c24 8 40 22 52 48-18-6-36-14-52-26z" fill="#9fc3ea"/><circle cx="172" cy="68" r="12" fill="#fbfbd9"/><path d="M164 66l-26 12 28 2z" fill="#f7891b"/><circle cx="170" cy="65" r="2" fill="#1d5aa6"/></svg>
+</div>
 
 <div id="cfgWarn" class="msg err" hidden>Chưa cấu hình Supabase. Mở index.html và điền SUPABASE_URL, SUPABASE_KEY.</div>
 <div id="banners"></div>
@@ -66,7 +91,8 @@ th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
     <label for="cls">Lớp</label>
     <input id="cls" maxlength="30" required>
     <label for="date">Ngày</label>
-    <select id="date"></select>
+    <input type="date" id="date" required>
+    <p class="hint" id="dinfo" role="status"></p>
     <label>Khung giờ (chọn một hoặc nhiều)</label>
     <div class="slots" id="slots"></div>
     <button class="full" id="go">Đăng ký</button>
@@ -107,7 +133,7 @@ th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
 const SUPABASE_URL = "https://uhyjsqmfyilboihjnipa.supabase.co";   // https://xxxx.supabase.co
 const SUPABASE_KEY = "sb_publishable_2Cusf-MIAIPvnNQog3AzgQ_J-uzthHf";   // anon public key
 const SAT_MIN = 13;        // thứ 7 cần trên 12 người
-const SLOTS = ["Sáng 7:30–9:30","Sáng 9:30–11:30","Chiều 13:00–15:00","Chiều 15:00–17:00"];
+const SLOTS = Array.from({length:9},(_,i)=>`${8+i}:00–${9+i}:00`); // 8h–17h, mỗi giờ 1 ô
 const DAYS_AHEAD = 14;
 /* ==================== */
 
@@ -115,7 +141,7 @@ const $ = id => document.getElementById(id);
 const DOW = ["Chủ nhật","Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7"];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const fmt = s => { const [y,m,d] = s.split("-").map(Number); const dt = new Date(y,m-1,d); return `${DOW[dt.getDay()]} ${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}`; };
+const fmt = s => { const [y,m,d] = s.split("-").map(Number); const dt = new Date(y,m-1,d); return `${DOW[dt.getDay()]} ${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}${y!==new Date().getFullYear()?"/"+y:""}`; };
 
 const dates = [];
 for (let i = 0; i < DAYS_AHEAD; i++) { const d = new Date(); d.setDate(d.getDate()+i); if (d.getDay() !== 0) dates.push(iso(d)); }
@@ -124,8 +150,19 @@ const ok = SUPABASE_URL && SUPABASE_KEY;
 const sb = ok ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 if (!ok) $("cfgWarn").hidden = false;
 
-$("date").innerHTML = dates.map(d => `<option value="${d}">${fmt(d)}</option>`).join("");
-$("fd").innerHTML = `<option value="">Tất cả</option>` + dates.map(d => `<option value="${d}">${fmt(d)}</option>`).join("");
+const todayS = iso(new Date()), mx = new Date(); mx.setFullYear(mx.getFullYear()+1);
+$("date").min = todayS; $("date").max = iso(mx); $("date").value = dates[0];
+async function showInfo() {
+  const d = $("date").value, el = $("dinfo"); el.textContent = "";
+  if (!d) return;
+  const dt = new Date(d+"T00:00");
+  if (dt.getDay() === 0) { el.textContent = "Chủ nhật phòng không mở, hãy chọn ngày khác."; return; }
+  if (!sb) return;
+  const { data } = await sb.rpc("day_counts", { from_d: d, to_d: d });
+  const n = data && data[0] ? Number(data[0].people) : 0;
+  el.textContent = dt.getDay() === 6 ? `${fmt(d)}: ${n}/${SAT_MIN} người, ${n >= SAT_MIN ? "đã mở cửa" : "chưa đủ để mở"}` : `${fmt(d)}: ${n} người đã đăng ký`;
+}
+$("date").onchange = showInfo;
 $("slots").innerHTML = SLOTS.map((s,i) => `<label><input type="checkbox" name="slot" value="${esc(s)}"> ${esc(s)}</label>`).join("");
 
 let counts = {};
@@ -156,6 +193,8 @@ $("go").onclick = async () => {
   const fail = t => { r.className = "msg err"; r.textContent = t; };
   if (!sb) return fail("Trang chưa được cấu hình.");
   if (name.length < 2 || !cls) return fail("Nhập đủ họ tên và lớp.");
+  if (!date || date < todayS || date > $("date").max) return fail("Chọn ngày từ hôm nay trở đi.");
+  if (new Date(date+"T00:00").getDay() === 0) return fail("Chủ nhật phòng không mở.");
   if (!slots.length) return fail("Chọn ít nhất một khung giờ.");
   $("go").disabled = true;
   const rows = slots.map(slot => ({ full_name: name, class_name: cls, visit_date: date, slot }));
@@ -165,7 +204,7 @@ $("go").onclick = async () => {
   r.className = "msg ok";
   r.textContent = `OK! ${name} (${cls}) đã đăng ký ${fmt(date)}: ${slots.join(", ")}.`;
   document.querySelectorAll("input[name=slot]").forEach(x => x.checked = false);
-  loadCounts();
+  loadCounts(); showInfo();
 };
 
 /* ---- Admin ---- */
@@ -188,7 +227,11 @@ $("logout").onclick = async () => { await sb.auth.signOut(); checkSession(); };
 async function loadAdmin() {
   const { data, error } = await sb.from("registrations").select("*").order("visit_date").order("slot").order("full_name").limit(5000);
   if (error) { $("adminMsg").innerHTML = `<div class="msg err">Không tải được dữ liệu.</div>`; return; }
-  all = data; drawTable();
+  all = data;
+  const cur = $("fd").value, ds = [...new Set(all.map(r => r.visit_date))].sort().reverse();
+  $("fd").innerHTML = '<option value="">Tất cả</option>' + ds.map(d => `<option value="${d}">${fmt(d)}</option>`).join("");
+  $("fd").value = ds.includes(cur) ? cur : "";
+  drawTable();
 }
 function drawTable() {
   const f = $("fd").value, rows = f ? all.filter(r => r.visit_date === f) : all;
@@ -217,7 +260,11 @@ $("copyMsg").onclick = async () => {
   catch { $("adminMsg").innerHTML = `<div class="msg err">Trình duyệt chặn chép tự động.</div>`; }
 };
 
-loadCounts();
+(function(){const sky=document.getElementById("sky");
+for(let i=0;i<9;i++){const d=document.createElement("div");d.className="bin";d.style.left=(i*11+Math.random()*6)+"%";d.style.top=(Math.random()*30-10)+"%";
+d.textContent=Array.from({length:14+Math.floor(Math.random()*10)},()=>Math.random()<.5?"0":"1").join("\n");sky.appendChild(d)}})();
+
+loadCounts(); showInfo();
 setInterval(loadCounts, 60000);
 </script>
 </body>
